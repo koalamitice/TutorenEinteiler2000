@@ -40,6 +40,7 @@ public class ExercisePlaner {
 				if (!alreadyUsed.contains(tutor)) {
 					allocation.addAllocationToSchedule(exercise, tutor);
 					alreadyUsed.add(tutor);
+					break;
 				}
 			}
 		}

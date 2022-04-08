@@ -21,68 +21,100 @@ public class Parser {
 		
 		reader.close();
 		System.out.println("finished parsing");
+		//printResult();
 		return allocation;
 	}
 	
 	private void readLine() throws IOException {
 		String line = reader.readLine();
-		if (line == null) return;
-		//System.out.println(line);
-		
-		if (line.contains("#START: AllTut")) {
-			readAllTuts();
-		} else if (line.contains("#START: Table")) {
-			readTable();
+		while (line != null) {
+			if (line.contains("#START: AllTut")) {
+				readAllTuts();
+			} else if (line.contains("#START: Table")) {
+				readTable();
+			}
+			line = reader.readLine();
 		}
-		readLine();
 	}
 	
 	private void readAllTuts() throws IOException {
 		String line = reader.readLine();
-		//System.out.println(line);
-		if (line == null || line.contains("#END")) return;
-		if (line.isBlank()) readAllTuts();
-		
-		Tutor tutor = new Tutor(line);
-		allocation.addTutor(tutor);
-		
-		readAllTuts();
+		while (line != null) {
+			if (line.contains("#END")) {
+				readLine();
+				return;
+			}
+			if (!line.isBlank()) {
+				Tutor tutor = new Tutor(line);
+				allocation.addTutor(tutor);
+			}
+			line = reader.readLine();
+		}
 	}
 	
 	private void readTable() throws IOException {
 		String line = reader.readLine();
-		//System.out.println(line);
-		if (line == null || line.contains("#END")) return;
-		if (line.isBlank()) readTable();
-		
-		String[] entries = line.split(";");
-		if (entries.length != 4) System.err.println("line has error: " + line);
-		
-		Exercise exercise = new Exercise();
-		exercise.setDay(entries[0]);
-		exercise.setTime(entries[1]);
-		exercise.setRoom(entries[2]);
-		allocation.addExercise(exercise);
-		
-		String[] tutorsForExercise = entries[4].split(",");
-		for (String tutorName : tutorsForExercise) {
-			Tutor tutor = getTutWithName(tutorName);
-			if (tutor == null) {
-				System.err.println("Tutor does not Exist in List of all Turors: " + tutor);
+		while (line != null) {
+			if (line.contains("#END")) {
+				readLine();
+				return;
 			}
-			allocation.addTutEntry(exercise, tutor);
+			
+			if (!line.isBlank()) {
+				String[] entries = line.split(";");
+				if (entries.length != 4) {
+					System.err.println("line has error: " + line);
+					break;
+				}
+				
+				Exercise exercise = new Exercise();
+				exercise.setDay(entries[0]);
+				exercise.setTime(entries[1]);
+				exercise.setRoom(entries[2]);
+				allocation.addExercise(exercise);
+				
+				String[] tutorsForExercise = entries[3].split(",");
+				for (String tutorName : tutorsForExercise) {
+					Tutor tutor = getTutWithName(tutorName);
+					if (tutor == null) {
+						System.err.println("Tutor does not Exist in List of all Turors: " + tutorName);
+					}
+					allocation.addTutEntry(exercise, tutor);
+				}
+			}
+
+			line = reader.readLine();
 		}
-		
-		readTable();
 	}
 	
 	private Tutor getTutWithName(String name) {
 		for (Tutor tutor : allocation.getAllTutors()) {
-			String name1 = name.replaceAll(" ", "");
-			String name2 = tutor.getName().replaceAll(" ", "");
+			String name1 = name.replaceAll("\\s", "");
+			String name2 = tutor.getName().replaceAll("\\s", "");
 			if (name1.equals(name2)) return tutor;
 		}
 		return null;
+	}
+	
+	/**
+	 * for debugging
+	 */
+	@SuppressWarnings("unused")
+	private void printResult() {
+		System.out.println("parsed tutors: ");
+		for (Tutor tut : allocation.getAllTutors()) {
+			System.out.println("Tutor: " + tut.getName());
+		}
+		
+		System.out.println();
+		System.out.println("parsed entries:");
+		for (Exercise ex : allocation.getTutEntires().keySet()) {
+			System.out.print(ex.getDay() + " " + ex.getTime() + " " + ex.getRoom() + " ");
+			for (Tutor tut : allocation.getTutEntires().get(ex)) {
+				System.out.print(tut.getName() + " ");
+			}
+			System.out.println();
+		}
 	}
 
 }

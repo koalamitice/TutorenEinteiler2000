@@ -3,6 +3,7 @@ package TutorenEinteiler2000.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 import TutorenEinteiler2000.model.Allocation;
 import TutorenEinteiler2000.model.Exercise;
@@ -32,13 +33,15 @@ public class Exporter {
 	}
 	
 	private void writeFileInput() {
-		for (Exercise exercise : allocation.getSchedule().keySet()) {
+		Map<Exercise, Tutor> sortedSchedule = SortingUtil.getSortedSchedule(allocation);
+		
+		for (Exercise exercise : sortedSchedule.keySet()) {
 			//write exercise slot:
 			writer.write(exercise.getDay() + "; " 
 					+ exercise.getTime() + "; " 
 					+ exercise.getRoom() + "; ");
 			//write assigned tutor:
-			writer.write(allocation.getSchedule().get(exercise).getName());
+			writer.write(sortedSchedule.get(exercise).getName());
 			writer.write("\n"); //new line
 		}
 		writer.write("\n");

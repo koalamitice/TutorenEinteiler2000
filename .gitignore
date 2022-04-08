@@ -3,5 +3,7 @@
 
 # Ignore Gradle build output directory
 build
-core/bin
-core/lib
+.gradle
+.settings
+*.project
+*/bin

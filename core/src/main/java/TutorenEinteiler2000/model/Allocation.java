@@ -71,12 +71,13 @@ public class Allocation {
 	public List<Tutor> getUnusedTutors() {
 		List<Tutor> unused = new ArrayList<Tutor>();
 		for (Tutor tutor : getAllTutors()) {
+			boolean tutFound = false;
 			for (Exercise exercise : getSchedule().keySet()) {
 				if (getSchedule().get(exercise) == tutor) {
-					continue;
+					tutFound = true;
 				}
 			}
-			unused.add(tutor);
+			if (!tutFound) unused.add(tutor);
 		}
 		
 		return unused;

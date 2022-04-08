@@ -15,11 +15,8 @@ public class Activator extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("TutorenEinteiler2000");
-		
-		View view = new View(primaryStage);
-		view.createLayout();
-		
-        primaryStage.show();
+		Dialog dialog = new Dialog();
+		dialog.createAndStart();
+		System.exit(0);
 	}
 }
