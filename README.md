@@ -11,7 +11,7 @@ On Unix: `gradlew run`
 # Work Flow
 After executing the gradle run command a file dialog will pop up.<br />
 Use the dialog to open a file that contains a list of all tutors, all possible exercises, and which tutors could hold them.<br />
-The TutorenEinteiler2000 will parse the file and automatically schedule tutors for the exercises. The output will be written in a file called *schedule.txt*, create in the same directory as the selected file.
+The TutorenEinteiler2000 will parse the file and automatically schedule tutors for the exercises. The output will be written in a file called *schedule.txt*, created in the same directory as the selected file.
 <br />
 <br />
 # Input File Format
