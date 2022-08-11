@@ -1,13 +1,7 @@
 # TutorenEinteiler2000
-Automatically Schedules exercises for SWT1.<br />
-This project uses Gradle, to start the tool just use the gradle wrapper.
+This tool is used to schedules exercises for the Softwaretechnik 1 course at the Karlsruhe Institute of Technology.<br/>
+This project uses Gradle, to start the tool just use the gradle wrapper (execute the **gradlew run** command).
 
-On Windows: `.\gradlew run`
-<br />
-<br />
-On Unix: `gradlew run`
-<br />
-<br />
 # Work Flow
 After executing the gradle run command a file dialog will pop up.<br />
 Use the dialog to open a file that contains a list of all tutors, all possible exercises, and which tutors could hold them.<br />
